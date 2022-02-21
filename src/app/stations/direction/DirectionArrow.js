@@ -11,15 +11,16 @@ export function DirectionArrow(props) {
         );
     
         if (isIOS) {
-        DeviceOrientationEvent.requestPermission()
-            .then((response) => {
-            if (response === "granted") {
-                window.addEventListener("deviceorientation", compassHandler, true);
-            } else {
-                alert("has to be allowed!");
-            }
-            })
-            .catch(() => alert("Compass not supported"));
+            DeviceOrientationEvent.requestPermission()
+                .then((response) => {
+                    alert(response)
+                    if (response === "granted") {
+                        window.addEventListener("deviceorientation", compassHandler, true);
+                    } else {
+                        alert("has to be allowed!");
+                    }
+                })
+                .catch(() => alert("Compass not supported"));
         } else {
             window.addEventListener("deviceorientationabsolute", compassHandler, true);
         }

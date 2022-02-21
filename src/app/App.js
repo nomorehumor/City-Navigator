@@ -1,12 +1,23 @@
 import './App.css';
 import Stations from "./stations/Stations"
-import React, { useState } from 'react';
-import { AppBar } from '@mui/material';
+import React, { createContext, useState } from 'react';
+import { AppBar, Button } from '@mui/material';
+// import CompassContext from "./compass-context.js"
+
+export const CompassContext = createContext(null) 
+export const LocationContext = createContext({latitude: null, longitude: null})
 
 const App = () => {
 
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+
+  const [compassEnabled, setCompassEnabled] = useState(false);
+
+  const isIOS = (
+    navigator.userAgent.match(/(iPod|iPhone|iPad)/) &&
+    navigator.userAgent.match(/AppleWebKit/)
+  );
 
   if(navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -23,6 +34,22 @@ const App = () => {
     }
   }
 
+  var requestCompassPermission = () => {
+    DeviceOrientationEvent.requestPermission()
+    .then((response) => {
+      if (response === "granted") {
+        setCompassEnabled(true);
+      } else {
+        setCompassEnabled(false);
+        alert("Compass has to be allowed!");
+      }
+    })
+    .catch((e) => {
+      alert(e); //TODO: Remove
+      setCompassEnabled(false)
+    });
+  }
+
   return (
     <div>
       <header>
@@ -32,7 +59,15 @@ const App = () => {
         </AppBar>
       </header>
       <main>
-        {renderStations()}
+        {
+          isIOS && !compassEnabled &&
+          <Button variant="contained" onClick={requestCompassPermission}>Enable compass</Button>
+        }
+        <LocationContext.Provider value={{latitude: latitude, longitude: longitude}}>
+          <CompassContext.Provider value={compassEnabled}>
+            {renderStations()}
+          </CompassContext.Provider>
+        </LocationContext.Provider>
       </main>
       <footer><a href="https://www.flaticon.com/free-icons/" title="icons">Icons created by Google - Flaticon</a></footer>
     </div>

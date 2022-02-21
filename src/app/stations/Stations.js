@@ -78,7 +78,6 @@ class Stations extends React.Component {
     render() {
         return <div>
                     <div>Current location: {this.props.latitude} {this.props.longitude}</div>
-                    <DirectionArrow></DirectionArrow>
                     {/* <React.StrictMode> */}
                         <StationsList stations={this.state.stations} currentLongitude={this.props.longitude} currentLatitude={this.props.latitude}></StationsList>
                     {/* </React.StrictMode> */}
@@ -169,7 +168,7 @@ class Station extends React.Component {
     
         render() {
             return  <Paper variant="elevation" elevation={4}>
-                        <Box sx={{width: 300, height: 100, fontFamily: "Jetbrains Mono, monospace", fontWeight: 600, fontSize: "1.2em", padding: "10px", borderRadius: "10px"}}>
+                        <Box sx={{width: 350, height: 100, fontFamily: "Jetbrains Mono, monospace", fontWeight: 600, fontSize: "1.2em", padding: "10px", borderRadius: "10px"}}>
                             <div className="station-box">
                                 <div>
                                     <div>
@@ -187,6 +186,9 @@ class Station extends React.Component {
                                         <div>{this.state.distance}</div>
                                         <div>{this.state.duration}</div>
                                     </div>
+                                </div>
+                                <div class="direction-arrow-box">
+                                    <DirectionArrow></DirectionArrow>
                                 </div>
                             </div>
                         </Box>

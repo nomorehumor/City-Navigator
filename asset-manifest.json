@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/City-Navigator/static/css/main.1ec5c06d.chunk.css",
+    "main.css": "/City-Navigator/static/css/main.4e5dafb0.chunk.css",
     "main.js": "/City-Navigator/static/js/main.19c7c2cf.chunk.js",
     "main.js.map": "/City-Navigator/static/js/main.19c7c2cf.chunk.js.map",
     "runtime~main.js": "/City-Navigator/static/js/runtime~main.74326330.js",
@@ -8,8 +8,8 @@
     "static/js/2.9e4a446d.chunk.js": "/City-Navigator/static/js/2.9e4a446d.chunk.js",
     "static/js/2.9e4a446d.chunk.js.map": "/City-Navigator/static/js/2.9e4a446d.chunk.js.map",
     "index.html": "/City-Navigator/index.html",
-    "precache-manifest.aee0473d082a48bc27694e2c4b2c4ac8.js": "/City-Navigator/precache-manifest.aee0473d082a48bc27694e2c4b2c4ac8.js",
+    "precache-manifest.8fdbce4ecd9535d287c6e03e86a4987f.js": "/City-Navigator/precache-manifest.8fdbce4ecd9535d287c6e03e86a4987f.js",
     "service-worker.js": "/City-Navigator/service-worker.js",
-    "static/css/main.1ec5c06d.chunk.css.map": "/City-Navigator/static/css/main.1ec5c06d.chunk.css.map"
+    "static/css/main.4e5dafb0.chunk.css.map": "/City-Navigator/static/css/main.4e5dafb0.chunk.css.map"
   }
 }

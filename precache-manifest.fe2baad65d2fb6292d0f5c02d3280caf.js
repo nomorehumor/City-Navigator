@@ -1,18 +1,18 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9f5e9d140ed0e6688bbf44dc4c66e35e",
+    "revision": "1bbd28b37bfa72777248db3fe9ec5689",
     "url": "/City-Navigator/index.html"
   },
   {
-    "revision": "a31b914d9bfcb6e9c61d",
-    "url": "/City-Navigator/static/css/main.4e5dafb0.chunk.css"
+    "revision": "ab73479684f92e40bb7d",
+    "url": "/City-Navigator/static/css/main.c092258b.chunk.css"
   },
   {
     "revision": "513b7e7fc42612786dd9",
     "url": "/City-Navigator/static/js/2.9e4a446d.chunk.js"
   },
   {
-    "revision": "a31b914d9bfcb6e9c61d",
+    "revision": "ab73479684f92e40bb7d",
     "url": "/City-Navigator/static/js/main.19c7c2cf.chunk.js"
   },
   {

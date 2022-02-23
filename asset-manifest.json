@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/City-Navigator/static/css/main.9937b309.chunk.css",
-    "main.js": "/City-Navigator/static/js/main.900467b8.chunk.js",
-    "main.js.map": "/City-Navigator/static/js/main.900467b8.chunk.js.map",
+    "main.css": "/City-Navigator/static/css/main.c4a0b19c.chunk.css",
+    "main.js": "/City-Navigator/static/js/main.8c5ba3a0.chunk.js",
+    "main.js.map": "/City-Navigator/static/js/main.8c5ba3a0.chunk.js.map",
     "runtime~main.js": "/City-Navigator/static/js/runtime~main.74326330.js",
     "runtime~main.js.map": "/City-Navigator/static/js/runtime~main.74326330.js.map",
     "static/js/2.9e4a446d.chunk.js": "/City-Navigator/static/js/2.9e4a446d.chunk.js",
     "static/js/2.9e4a446d.chunk.js.map": "/City-Navigator/static/js/2.9e4a446d.chunk.js.map",
     "index.html": "/City-Navigator/index.html",
-    "precache-manifest.f2fefa1f13ce3e5f19ee86a4f1e1f08e.js": "/City-Navigator/precache-manifest.f2fefa1f13ce3e5f19ee86a4f1e1f08e.js",
+    "precache-manifest.f4109c344f44378f9800a09c5efea9af.js": "/City-Navigator/precache-manifest.f4109c344f44378f9800a09c5efea9af.js",
     "service-worker.js": "/City-Navigator/service-worker.js",
-    "static/css/main.9937b309.chunk.css.map": "/City-Navigator/static/css/main.9937b309.chunk.css.map"
+    "static/css/main.c4a0b19c.chunk.css.map": "/City-Navigator/static/css/main.c4a0b19c.chunk.css.map"
   }
 }

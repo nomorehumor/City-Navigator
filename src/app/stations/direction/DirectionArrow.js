@@ -1,9 +1,7 @@
 import React, { useContext, useState } from "react"
-import { Button } from "@mui/material"
-// import { CompassContext } from "../../compass-context"
 import { CompassContext } from "../../App"
-import { style } from "@mui/system"
 import "./DirectionArrow.css"
+import { LocationContext } from "../../LocationContext"
 
 function DirectionArrowIcon(props) {
     return <img src="down-arrow.png" style={{transform: props.transform}}></img>
@@ -12,11 +10,10 @@ function DirectionArrowIcon(props) {
 export function DirectionArrow(props) {
 
     var [compass, setCompass] = useState(null)
-    // var [started, setStarted] = useState(false)
     const compassEnabled = useContext(CompassContext)
+    const location = useContext(LocationContext)
 
     var startCompass = () => {
-        // setStarted(true)
         const isIOS = (
             navigator.userAgent.match(/(iPod|iPhone|iPad)/) &&
             navigator.userAgent.match(/AppleWebKit/)
@@ -39,8 +36,9 @@ export function DirectionArrow(props) {
         startCompass()
     }
 
+
     var style = {
-        transform: "translate(-50%, -50%) rotate(-" + compass + "deg)",
+        transform: "rotate(" + (computeDirectionAngle(location, props.destinationLocation, compass) + 180) + "deg)",
         height: "2.5em"
     }
 
@@ -49,13 +47,14 @@ export function DirectionArrow(props) {
             compassEnabled &&
             <img src="down-arrow.png" className="compass-arrow" style={style}></img>
         }
-        {/* {
-            !compassEnabled && 
-            <img src="down-arrow.png" className="compass-arrow"></img>
-        } */}
     </div>
 }
 
-function computeDirection(currentLocation, destinationLocation) {
+function computeDirectionAngle(currentLocation, destinationLocation, northAngle) {
+    const X = Math.cos(destinationLocation.latitude) * Math.sin(destinationLocation.longitude - currentLocation.longitude);
+    const Y = Math.cos(currentLocation.latitude) * Math.sin(destinationLocation.latitude) - Math.sin(currentLocation.latitude) * Math.cos(destinationLocation.latitude) * Math.cos(destinationLocation.longitude - currentLocation.longitude);
 
+    const beta = Math.atan2(X,Y)
+    const angle = beta * 180 / Math.PI
+    return angle - northAngle;
 }

@@ -1,6 +1,7 @@
-import { Paper, Stack } from '@mui/material';
+import { Paper, Stack, Grid, Container} from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react'
+import React, { useContext } from 'react'
+import { LocationContext } from '../LocationContext';
 import { DirectionArrow } from './direction/DirectionArrow';
 import "./Stations.css"
 
@@ -9,8 +10,9 @@ const googleDistanceAPI = "https://maps.googleapis.com/maps/api/distancematrix/j
 
 const MAX_STATION_AMOUNT = 10;
 
-
 class Stations extends React.Component {
+
+    static contextType = LocationContext;
 
     constructor(props) {
         super(props)
@@ -51,10 +53,11 @@ class Stations extends React.Component {
     }
 
     reloadStationsList() {
+        if (this.context == undefined || !this.context.latitude == undefined || !this.context.longitude == undefined) return
 
         var params = new URLSearchParams({
             key: process.env.REACT_APP_GOOGLE_API_KEY,
-            location: this.props.latitude + ", " + this.props.longitude,
+            location: this.context.latitude + ", " + this.context.longitude,
             rankby: "distance",
             type: "train_station"
         })
@@ -76,12 +79,22 @@ class Stations extends React.Component {
     }
 
     render() {
-        return <div>
-                    <div>Current location: {this.props.latitude} {this.props.longitude}</div>
-                    {/* <React.StrictMode> */}
-                        <StationsList stations={this.state.stations} currentLongitude={this.props.longitude} currentLatitude={this.props.latitude}></StationsList>
-                    {/* </React.StrictMode> */}
-                </div>;
+        var location = this.context
+
+        return <Stack>
+                    <StationsList stations={this.state.stations}></StationsList>
+                    <Paper variant="elevation" elevation={2} className="location-block">
+                        <div>
+                            Current location: 
+                            <div>
+                                {location.latitude}
+                            </div> 
+                            <div>
+                                {location.longitude}
+                            </div>
+                        </div>
+                    </Paper>
+                </Stack>;
     }
 }
 
@@ -90,37 +103,41 @@ export default Stations;
 
 class StationsList extends React.Component {
     
+
     constructor(props) {
         super(props)
     }
 
     getStations() {
+        var location = this.context
+
         return this.props.stations.map(element => {
-            return <Station 
+            return <Station
                 name={element["name"]} key={element["id"]} 
-                station={element}
-                currentLatitude={ this.props.currentLatitude } currentLongitude={this.props.currentLongitude}>
+                station={element}>
             </Station>
         })
     };
 
     render() {
-        return <Stack
+        return <div className="stations-container"
             direction="column"
             justifyContent="flex-start"
             alignItems="center"
             spacing={2}>
                 {this.getStations()}
-            </Stack>;
+            </div>;
     }
 }
 
 class Station extends React.Component {
+        static contextType = LocationContext;
+
         constructor(props) {
             super(props)
             this.state = {
                 distance: "",
-                duration: ""
+                duration: "",
             }
             this.requestDistanceAPI()
         }
@@ -149,10 +166,14 @@ class Station extends React.Component {
         }
     
         requestDistanceAPI() {
+            if (!this.context) return
+
+            var location = this.context
+
             var params = new URLSearchParams({
                 key: process.env.REACT_APP_GOOGLE_API_KEY,
                 destinations: "place_id:" + this.props.station["id"],
-                origins: this.props.currentLatitude + ", " + this.props.currentLongitude,
+                origins: location.latitude + ", " + location.longitude,
                 mode: "walking"
             })
             const apiRequest = googleDistanceAPI + params
@@ -163,36 +184,56 @@ class Station extends React.Component {
         }
 
         componentDidMount() {
-            
+            this.requestDistanceAPI()
+        }
+
+        getStationLink() {
+            var location = this.context
+
+            var params = new URLSearchParams({
+                destination_place_id: this.props.station["id"],
+                destination: this.props.name,
+                origins: location.latitude + ", " + location.longitude,
+                travelmode: "walking"
+            })
+
+            return "https://www.google.com/maps/dir/?api=1&" + params;
+
         }
     
         render() {
-            return  <Paper variant="elevation" elevation={4}>
-                        <Box sx={{width: 350, height: 100, fontFamily: "Jetbrains Mono, monospace", fontWeight: 600, fontSize: "1.2em", padding: "10px", borderRadius: "10px"}}>
-                            <div className="station-box">
-                                <div>
+            const stationLocation = {
+                latitude: this.props.station.latitude,
+                longitude: this.props.station.longitude
+            }
+            return  <a href={this.getStationLink()} className="station">
+                        <Paper variant="elevation" elevation={4}>
+                            <Box sx={{width: 350, fontFamily: "Jetbrains Mono, monospace", fontWeight: 600, fontSize: "1.2em", padding: "10px 10px", borderRadius: "10px"}}>
+                                <div className="station-box">
                                     <div>
-                                        {
-                                            this.isTrainStation() &&
-                                            <img className="transport-icon" src={"/train-public-transport.png"} />
-                                        }
-                                        {
-                                            this.isBusStation() &&
-                                            <img className="transport-icon" src={"/bus-public-transport.png"} />
-                                        }
+                                        <div>
+                                            {
+                                                this.isTrainStation() &&
+                                                <img className="transport-icon" src={"/train-public-transport.png"} />
+                                            }
+                                            {
+                                                this.isBusStation() &&
+                                                <img className="transport-icon" src={"/bus-public-transport.png"} />
+                                            }
+                                        </div>
+                                        <div>{this.props.name}</div>
+                                        <div className="station-info">
+                                            <div>{this.state.distance}</div>
+                                            <div>{this.state.duration}</div>
+                                        </div>
                                     </div>
-                                    <div>{this.props.name}</div>
-                                    <div className="station-info">
-                                        <div>{this.state.distance}</div>
-                                        <div>{this.state.duration}</div>
+                                    <div className="direction-arrow-box">
+                                        <DirectionArrow destinationLocation={stationLocation}></DirectionArrow>
                                     </div>
                                 </div>
-                                <div class="direction-arrow-box">
-                                    <DirectionArrow></DirectionArrow>
-                                </div>
-                            </div>
-                        </Box>
-                    </Paper>
+                            </Box>
+                        </Paper>
+                    </a>
         }
     }
 

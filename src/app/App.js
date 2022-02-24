@@ -2,10 +2,9 @@ import './App.css';
 import Stations from "./stations/Stations"
 import React, { createContext, useState } from 'react';
 import { AppBar, Button } from '@mui/material';
-// import CompassContext from "./compass-context.js"
+import { LocationContext } from './LocationContext';
 
 export const CompassContext = createContext(null) 
-export const LocationContext = createContext({latitude: null, longitude: null})
 
 const App = () => {
 
@@ -28,26 +27,24 @@ const App = () => {
     alert("Sorry, your browser does not support HTML5 geolocation.");
   }
 
-  var renderStations = () => {
-    if (latitude != null && longitude != null) {
-      return <Stations latitude={latitude} longitude={longitude}></Stations>;
-    }
-  }
-
   var requestCompassPermission = () => {
-    DeviceOrientationEvent.requestPermission()
-    .then((response) => {
-      if (response === "granted") {
-        setCompassEnabled(true);
-      } else {
-        setCompassEnabled(false);
-        alert("Compass has to be allowed!");
-      }
-    })
-    .catch((e) => {
-      alert(e); //TODO: Remove
-      setCompassEnabled(false)
-    });
+    if (isIOS) {
+      DeviceOrientationEvent.requestPermission()
+      .then((response) => {
+        if (response === "granted") {
+          setCompassEnabled(true);
+        } else {
+          setCompassEnabled(false);
+          alert("Compass has to be allowed!");
+        }
+      })
+      .catch((e) => {
+        alert(e);
+        setCompassEnabled(false)
+      });
+    } else {
+      setCompassEnabled(true);
+    }
   }
 
   return (
@@ -61,11 +58,13 @@ const App = () => {
       <main>
         {
           isIOS && !compassEnabled &&
-          <Button variant="contained" onClick={requestCompassPermission}>Enable compass</Button>
+          <Button variant="contained" onClick={requestCompassPermission} className="compass-button">Enable compass</Button>
         }
         <LocationContext.Provider value={{latitude: latitude, longitude: longitude}}>
           <CompassContext.Provider value={compassEnabled}>
-            {renderStations()}
+            { latitude != null && longitude != null &&
+              <Stations></Stations>
+            }
           </CompassContext.Provider>
         </LocationContext.Provider>
       </main>

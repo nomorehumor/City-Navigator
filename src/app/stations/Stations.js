@@ -1,12 +1,11 @@
-import { Paper, Stack, Grid, Container} from '@mui/material';
-import { Box } from '@mui/system';
-import React, { useContext } from 'react'
+import { Paper, Stack, Box} from '@mui/material';
+import React from 'react'
 import { LocationContext } from '../LocationContext';
 import { DirectionArrow } from './direction/DirectionArrow';
 import "./Stations.css"
 
-let googleNearbyAPI = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
-const googleDistanceAPI = "https://maps.googleapis.com/maps/api/distancematrix/json?"
+const googleNearbyAPI = "http://localhost:8000/nearby";
+const googleDistanceAPI = "http://localhost:8000/distance";
 
 const MAX_STATION_AMOUNT = 10;
 
@@ -56,15 +55,14 @@ class Stations extends React.Component {
         if (this.context == undefined || !this.context.latitude == undefined || !this.context.longitude == undefined) return
 
         var params = new URLSearchParams({
-            key: process.env.REACT_APP_GOOGLE_API_KEY,
             location: this.context.latitude + ", " + this.context.longitude,
             rankby: "distance",
             type: "train_station"
         })
-        const apiRequest = googleNearbyAPI + params
+        const apiRequest = googleNearbyAPI + "?" + params
 
         fetch(
-            process.env.REACT_APP_CORS_PROXY_URL.concat(apiRequest), 
+            apiRequest, 
             {
                 method: 'GET',
                 headers: {'Content-Type':'application/json'},
@@ -122,8 +120,8 @@ class StationsList extends React.Component {
     render() {
         return <div className="stations-container"
             direction="column"
-            justifyContent="flex-start"
-            alignItems="center"
+            // justifyContent="flex-start"
+            // alignItems="center"
             spacing={2}>
                 {this.getStations()}
             </div>;
@@ -171,14 +169,13 @@ class Station extends React.Component {
             var location = this.context
 
             var params = new URLSearchParams({
-                key: process.env.REACT_APP_GOOGLE_API_KEY,
                 destinations: "place_id:" + this.props.station["id"],
                 origins: location.latitude + ", " + location.longitude,
                 mode: "walking"
             })
-            const apiRequest = googleDistanceAPI + params
+            const apiRequest = googleDistanceAPI + "?" + params
 
-            fetch(process.env.REACT_APP_CORS_PROXY_URL.concat(apiRequest))
+            fetch(apiRequest)
             .then(response => response.json())
             .then(data => this.handleDistanceResponse(data))
         }

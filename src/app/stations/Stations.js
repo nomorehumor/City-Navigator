@@ -4,8 +4,8 @@ import { LocationContext } from '../LocationContext';
 import { DirectionArrow } from './direction/DirectionArrow';
 import "./Stations.css"
 
-const googleNearbyAPI = "http://localhost:8000/nearby";
-const googleDistanceAPI = "http://localhost:8000/distance";
+const googleNearbyAPI = "https://city-navigator-gateway.onrender.com/nearby";
+const googleDistanceAPI = "https://city-navigator-gateway.onrender.com/distance";
 
 const MAX_STATION_AMOUNT = 10;
 

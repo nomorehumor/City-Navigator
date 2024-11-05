@@ -8,6 +8,8 @@ Live Demonstration: https://nomorehumor.github.io/City-Navigator/
 This project uses Google Maps API (Nearby and Distance Matrix) to retrieve the information about transport stations around you
 The access to Google API is provided through a custom API that you can find here: https://github.com/nomorehumor/City-Navigator-Gateway
 
+The example above uses API that is hosted on a free server, so it might need some time until the stations are shown, in order to spin the instance up.
+
 If you run the instance of API Gateway locally, you can change the API address in `src/config.json` file.
 
 ### Running locally

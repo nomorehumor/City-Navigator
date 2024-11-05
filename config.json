@@ -1,0 +1,4 @@
+{
+    "GOOGLE_NEARBY_API": "https://city-navigator-gateway.onrender.com/nearby",
+    "GOOGLE_DISTANCE_API": "https://city-navigator-gateway.onrender.com/distance"
+}

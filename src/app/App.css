@@ -15,12 +15,12 @@
 
 .App-header {
   background-color: #282c34;
-  height: 5vh;
+  height: 3rem;
   display: flex;
   flex-direction: row !important;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 1.5rem;
   color: white;
   font-family: 'JetBrains Mono', 'monospace';
   font-weight: 600;
@@ -43,7 +43,15 @@ main {
 }
 
 .bar-logo {
-  height: 3vh;
+  height: 1.5rem;
   margin-right: 5px;
   /* display: inline; */
+}
+
+footer {
+  text-align: center;
+}
+
+footer a {
+  color: grey;
 }

@@ -1,6 +1,7 @@
 .location-block {
     width: max-content;
     padding: 10px;
+    margin: auto;
     margin-top: 20px;
 }
 
@@ -15,9 +16,8 @@
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: wrap;
-    justify-content: center;
-    /* flex- */
-    /* margin: auto; */
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .station {

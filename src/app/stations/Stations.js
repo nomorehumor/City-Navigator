@@ -1,11 +1,14 @@
-import { Paper, Stack, Box} from '@mui/material';
 import React from 'react'
+import { Paper, Stack, Box} from '@mui/material';
 import { LocationContext } from '../LocationContext';
 import { DirectionArrow } from './direction/DirectionArrow';
+
+import config from "../../../config.json";
+
 import "./Stations.css"
 
-const googleNearbyAPI = "https://city-navigator-gateway.onrender.com/nearby";
-const googleDistanceAPI = "https://city-navigator-gateway.onrender.com/distance";
+const GOOGLE_NEARBY_API = config.GOOGLE_NEARBY_API;
+const GOOGLE_DISTANCE_API = config.GOOGLE_DISTANCE_API;
 
 const MAX_STATION_AMOUNT = 10;
 
@@ -55,17 +58,17 @@ class Stations extends React.Component {
         if (this.context == undefined || !this.context.latitude == undefined || !this.context.longitude == undefined) return
 
         var params = new URLSearchParams({
-            location: this.context.latitude + ", " + this.context.longitude,
+            location: this.context.latitude + "," + this.context.longitude,
             rankby: "distance",
             type: "train_station"
         })
-        const apiRequest = googleNearbyAPI + "?" + params
+        const apiRequest = GOOGLE_NEARBY_API + "?" + params
 
         fetch(
             apiRequest, 
             {
                 method: 'GET',
-                headers: {'Content-Type':'application/json'},
+                // headers: {'Content-Type':'application/json'},
             }
         )
         .then(response => response.json())
@@ -83,13 +86,7 @@ class Stations extends React.Component {
                     <StationsList stations={this.state.stations}></StationsList>
                     <Paper variant="elevation" elevation={2} className="location-block">
                         <div>
-                            Current location: 
-                            <div>
-                                {location.latitude}
-                            </div> 
-                            <div>
-                                {location.longitude}
-                            </div>
+                            Current location: {location.latitude} {location.longitude}
                         </div>
                     </Paper>
                 </Stack>;
@@ -107,8 +104,6 @@ class StationsList extends React.Component {
     }
 
     getStations() {
-        var location = this.context
-
         return this.props.stations.map(element => {
             return <Station
                 name={element["name"]} key={element["id"]} 
@@ -119,9 +114,6 @@ class StationsList extends React.Component {
 
     render() {
         return <div className="stations-container"
-            direction="column"
-            // justifyContent="flex-start"
-            // alignItems="center"
             spacing={2}>
                 {this.getStations()}
             </div>;
@@ -173,7 +165,7 @@ class Station extends React.Component {
                 origins: location.latitude + ", " + location.longitude,
                 mode: "walking"
             })
-            const apiRequest = googleDistanceAPI + "?" + params
+            const apiRequest = GOOGLE_DISTANCE_API + "?" + params
 
             fetch(apiRequest)
             .then(response => response.json())
@@ -190,7 +182,7 @@ class Station extends React.Component {
             var params = new URLSearchParams({
                 destination_place_id: this.props.station["id"],
                 destination: this.props.name,
-                origins: location.latitude + ", " + location.longitude,
+                origins: location.latitude + "," + location.longitude,
                 travelmode: "walking"
             })
 
@@ -233,16 +225,3 @@ class Station extends React.Component {
                     </a>
         }
     }
-
-
-// function getLocation(setLatitude, setLongitude) {
-//     if(navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(function(position) {
-//           setLatitude(position.coords.latitude)
-//           setLongitude(position.coords.longitude)
-//         })
-//     } else {
-//         alert("Sorry, your browser does not support HTML5 geolocation.");
-//     }
-// }
-

@@ -3,7 +3,7 @@ import { Paper, Stack, Box} from '@mui/material';
 import { LocationContext } from '../LocationContext';
 import { DirectionArrow } from './direction/DirectionArrow';
 
-import config from "../../../config.json";
+import config from "../../config.json";
 
 import "./Stations.css"
 
